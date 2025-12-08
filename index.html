@@ -1,83 +1,458 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Website đơn giản</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phật thuyết Thập Thiện Nghiệp Đạo Kinh</title>
+  <meta name="description" content="Trang đọc và học Kinh Phật thuyết Thập Thiện Nghiệp Đạo – bản ghi chép và học liệu cá nhân." />
   <style>
-    * { box-sizing: border-box; }
+    /* Reset nhẹ */
+    *, *::before, *::after { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f5f5f5;
-      color: #333;
+      background: #f3f4f6;
+      color: #111827;
+      line-height: 1.6;
     }
-    .hero {
+
+    a { color: inherit; text-decoration: none; }
+
+    /* Layout chung */
+    .page {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(243, 244, 246, 0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(209, 213, 219, 0.8);
+    }
+
+    .nav {
+      max-width: 1024px;
+      margin: 0 auto;
+      padding: 10px 16px;
+      display: flex;
       align-items: center;
-      padding: 24px;
-      text-align: center;
-      background: linear-gradient(135deg, #ffffff, #e5e7eb);
+      justify-content: space-between;
+      gap: 12px;
     }
-    h1 {
-      font-size: clamp(28px, 4vw, 40px);
-      margin-bottom: 8px;
-    }
-    p {
-      font-size: 16px;
-      max-width: 520px;
-      margin: 4px auto 20px;
-      opacity: 0.85;
-    }
-    .tag {
+
+    .nav-logo {
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
       font-size: 12px;
+      color: #4b5563;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .nav-links a {
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 1px;
+      width: 0;
+      background: #111827;
+      transition: width 0.18s ease;
+    }
+
+    .nav-links a:hover {
+      color: #111827;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    .section {
+      max-width: 1024px;
+      margin: 0 auto;
+      padding: 40px 16px;
+    }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .tag {
+      font-size: 11px;
       text-transform: uppercase;
       letter-spacing: .16em;
-      color: #6b7280;
-      margin-bottom: 12px;
+      color: #9ca3af;
+      margin-bottom: 10px;
     }
+
+    h1 {
+      font-size: clamp(26px, 4vw, 36px);
+      margin: 0 0 12px;
+      color: #111827;
+    }
+
+    .hero p {
+      margin: 0 0 20px;
+      color: #4b5563;
+      font-size: 15px;
+    }
+
+    .hero-card {
+      background: radial-gradient(circle at top left, #ffffff, #e5e7eb);
+      border-radius: 18px;
+      padding: 20px 18px;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+      border: 1px solid rgba(209, 213, 219, 0.8);
+      font-size: 14px;
+      color: #374151;
+    }
+
+    .hero-card h2 {
+      font-size: 16px;
+      margin-top: 0;
+      margin-bottom: 8px;
+      color: #111827;
+    }
+
+    .hero-card p {
+      margin: 4px 0;
+    }
+
+    .hero-card small {
+      display: block;
+      margin-top: 8px;
+      color: #9ca3af;
+      font-size: 12px;
+    }
+
+    /* Buttons */
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
     .btn {
-      display: inline-block;
-      padding: 10px 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 16px;
       border-radius: 999px;
-      text-decoration: none;
-      border: 1px solid #111827;
       font-size: 14px;
       font-weight: 500;
+      border: 1px solid #111827;
       cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
+      text-decoration: none;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
       background: #111827;
       color: #f9fafb;
-      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.35);
+      white-space: nowrap;
     }
+
+    .btn span {
+      font-size: 16px;
+    }
+
+    .btn.secondary {
+      background: #f9fafb;
+      color: #111827;
+      border-color: #e5e7eb;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.1);
+    }
+
     .btn:hover {
       transform: translateY(-1px);
-      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.25);
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.45);
       background: #f9fafb;
       color: #111827;
     }
-    footer {
-      padding: 12px;
-      text-align: center;
+
+    .btn.secondary:hover {
+      background: #111827;
+      color: #f9fafb;
+      border-color: #111827;
+    }
+
+    /* Các block nội dung */
+    .section-title {
+      font-size: 20px;
+      margin: 0 0 10px;
+      color: #111827;
+    }
+
+    .section-subtitle {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 20px;
+      max-width: 640px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 18px 16px;
+      border: 1px solid rgba(209, 213, 219, 0.9);
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
+      font-size: 14px;
+      color: #4b5563;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 6px;
+      font-size: 16px;
+      color: #111827;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      font-size: 11px;
+      color: #6b7280;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+    }
+
+    ul {
+      padding-left: 18px;
+      margin: 8px 0;
+      font-size: 14px;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    /* Ghi chú / footer */
+    .note {
       font-size: 12px;
+      color: #9ca3af;
+      margin-top: 24px;
+    }
+
+    footer {
+      border-top: 1px solid rgba(209, 213, 219, 0.9);
+      padding: 14px 16px;
+      font-size: 12px;
+      text-align: center;
       color: #9ca3af;
     }
   </style>
 </head>
 <body>
-  <section class="hero">
-    <div class="tag">Phật Thuyết Thập Thiện Nghiệp Đạo Kinh</div>
-    <h1>A Di Đà Phật 🚀</h1>
-    <p>
-      Phật Thuyết Thập Thiện Nghiệp Đạo Kinh - Do Pháp Sư Tịnh Không giảng
-    </p>
-    <a class="btn" href="PhatThuyetTTND-Kinh-Full.htm">Đọc Kinh TTNĐ</a>
-  </section>
-  <footer>
-    Được build trên GitHub Pages · Free hosting
-  </footer>
+  <div class="page">
+    <!-- Thanh menu -->
+    <header>
+      <nav class="nav">
+        <div class="nav-logo">PHẬT THUYẾT THẬP THIỆN NGHIỆP ĐẠO</div>
+        <div class="nav-links">
+          <a href="#gioi-thieu">Giới thiệu</a>
+          <a href="#noi-dung">Nội dung kinh</a>
+          <a href="#hoc-lieu">Học liệu</a>
+          <a href="#lien-he">Ghi chú</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section class="section" id="gioi-thieu">
+        <div class="hero">
+          <div>
+            <div class="tag">Trang đọc & ghi chép kinh</div>
+            <h1>Phật thuyết Thập Thiện Nghiệp Đạo Kinh</h1>
+            <p>
+              Một góc nhỏ để đọc lại kinh, ghi chú, chiêm nghiệm và chia sẻ.
+              Giao diện tối giản, tập trung vào nội dung, phù hợp để học từng đoạn,
+              trích ý, làm tài liệu cho giảng giải hoặc sinh hoạt Phật học.
+            </p>
+            <div class="btn-row">
+              <!-- NÚT QUAN TRỌNG: LINK SANG FILE HTM CỦA BẠN -->
+              <a class="btn" href="PhatThuyetTTND-Kinh-Full.htm" target="_blank" rel="noopener">
+                <span>📖</span> Đọc toàn văn kinh
+              </a>
+              <a class="btn secondary" href="#noi-dung">
+                <span>🧭</span> Xem cấu trúc & học dần
+              </a>
+            </div>
+          </div>
+
+          <aside class="hero-card">
+            <h2>Tinh thần của trang này</h2>
+            <p>• Học kinh bằng cách <strong>đọc – ghi – chiêm nghiệm – ứng dụng</strong>.</p>
+            <p>• Tôn trọng nguyên văn, trình bày sạch, dễ nhìn.</p>
+            <p>• Dần dần có thể bổ sung: tóm tắt, câu hỏi gợi mở, liên hệ đời sống.</p>
+            <small>Đây là không gian học tập cá nhân, không phải website hoằng pháp chính thức.</small>
+          </aside>
+        </div>
+      </section>
+
+      <!-- NỘI DUNG KINH / CẤU TRÚC -->
+      <section class="section" id="noi-dung">
+        <h2 class="section-title">Cấu trúc & nội dung chính</h2>
+        <p class="section-subtitle">
+          Dưới đây là gợi ý cách chia nội dung Thập Thiện Nghiệp Đạo để học dần.
+          Bạn có thể chỉnh sửa tuỳ ý cho phù hợp với bộ ghi chép, số tập giảng
+          và cách chia đề mục của riêng mình.
+        </p>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="badge">Phần 1</div>
+            <h3>Tổng quan về Thập Thiện</h3>
+            <ul>
+              <li>Khái niệm nghiệp đạo, ba nghiệp: thân – khẩu – ý.</li>
+              <li>Ý nghĩa “thiện” theo Phật pháp và nhân quả ba đời.</li>
+              <li>Liên hệ với Ngũ giới, Ngũ thường, đạo làm người.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="badge">Phần 2</div>
+            <h3>Thân nghiệp: Không sát, không trộm, không dâm</h3>
+            <ul>
+              <li>Lợi ích của tâm từ bi, tôn trọng sinh mạng.</li>
+              <li>Thanh tịnh tài vật, không chiếm đoạt.</li>
+              <li>Tôn trọng hôn nhân, gia đình, xây nền tảng xã hội an ổn.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="badge">Phần 3</div>
+            <h3>Khẩu nghiệp: Không vọng, không lưỡng, không ác, không ỷ</h3>
+            <ul>
+              <li>Lời nói chân thật, không lừa dối.</li>
+              <li>Không đâm thọc gây chia rẽ.</li>
+              <li>Không mắng nhiếc, nói lời thô ác, hạ nhục.</li>
+              <li>Không nói lời phù phiếm, vô nghĩa, phí thời gian mình và người.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="badge">Phần 4</div>
+            <h3>Ý nghiệp: Không tham, không sân, không si</h3>
+            <ul>
+              <li>Thấy rõ tham – sân – si là gốc của luân hồi.</li>
+              <li>Nuôi lớn tâm biết đủ, hoan hỷ, buông xả.</li>
+              <li>Dùng chánh kiến – chánh tư duy để chuyển hoá.</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="note">
+          Bạn có thể thêm các link nội bộ, tóm tắt từng tập giảng, hoặc liên kết
+          sang các file ghi chú khác (PDF, DOC, slide) nếu sau này upload thêm.
+        </p>
+      </section>
+
+      <!-- HỌC LIỆU -->
+      <section class="section" id="hoc-lieu">
+        <h2 class="section-title">Gợi ý phương pháp học</h2>
+        <p class="section-subtitle">
+          Thay vì chỉ đọc lướt, có thể biến mỗi buổi học kinh thành một “phiên
+          thực hành”: đọc, ghi, hỏi, soi lại đời sống hiện tại.
+        </p>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>1. Đọc nguyên văn & ghi chú</h3>
+            <ul>
+              <li>Mở nút “Đọc toàn văn kinh” ở trên (file HTM gốc).</li>
+              <li>Đọc chậm, mỗi lần chỉ 1 đoạn ngắn.</li>
+              <li>Ghi lại 1–3 câu đọng lại nhất trong ngày.</li>
+              <li>Ghi thêm ví dụ trong công việc, gia đình, xã hội.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>2. Chuyển thành câu hỏi thực hành</h3>
+            <ul>
+              <li>“Hôm nay mình đã phạm khẩu nghiệp ở đâu?”</li>
+              <li>“Trong việc này, gốc là tham – sân – hay si?”</li>
+              <li>“Nếu áp dụng 1 điều trong Thập Thiện, mình sẽ làm khác gì?”</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="note">
+          Khi repo lớn dần, bạn có thể thêm mục “Tài liệu tải về”, “Slide giảng”, “Audio”,
+          mỗi mục chỉ cần là một link tới file tương ứng trên GitHub.
+        </p>
+      </section>
+
+      <!-- GHI CHÚ / LIÊN HỆ -->
+      <section class="section" id="lien-he">
+        <h2 class="section-title">Ghi chú & mục đích sử dụng</h2>
+        <p class="section-subtitle">
+          Đây là không gian học tập cá nhân / nội bộ. Nếu chia sẻ công khai,
+          nên ghi rõ nguồn, tôn trọng bản quyền bản dịch và bài giảng của chư Tăng Ni, pháp sư.
+        </p>
+
+        <div class="card">
+          <h3>Định hướng mở rộng về sau</h3>
+          <ul>
+            <li>Thêm mục lục chi tiết: từng phẩm / từng tập giảng.</li>
+            <li>Thêm trang riêng cho mỗi chủ đề: Tam độc, Tứ chánh cần, Lục độ…</li>
+            <li>Tích hợp audio, video, hoặc link YouTube gốc (nếu có).</li>
+            <li>Nếu dùng cho doanh nghiệp: tạo mục “Ứng dụng Thập Thiện trong văn hoá công ty”.</li>
+          </ul>
+        </div>
+
+        <p class="note">
+          Mọi chỉnh sửa giao diện đều có thể thực hiện trực tiếp trên GitHub bằng cách cập nhật file <code>index.html</code>.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      Trang học Kinh · xây dựng trên GitHub Pages · giao diện tối giản để tập trung vào nội dung.
+    </footer>
+  </div>
 </body>
 </html>
